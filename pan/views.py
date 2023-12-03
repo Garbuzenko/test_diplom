@@ -28,7 +28,7 @@ from .utils import AjaxObj, get_key_signature, get_dir_size, make_archive_bytes,
 
 class IndexView(TemplateView):
     """Первая страница"""
-    template_name = 'pan/index.html'
+    template_name = 'pan/cloud.html'
 
 
 class CloudView(LoginRequiredMixin, TemplateView):
