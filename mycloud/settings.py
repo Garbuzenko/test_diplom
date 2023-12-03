@@ -29,6 +29,16 @@ SECRET_KEY = env('SECRET_KEY')#, 'django-insecure-wx8cyt+)#o!8f&7rrz!$5-s$*e_kci
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+INSTALLED_APPS = ['django.contrib.staticfiles']
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+
+SETTINGS_PATH = os.path.normpath(os.path.dirname(__file__))
+TEMPLATE_DIRS = (
+    os.path.join(SETTINGS_PATH, 'templates'),
+)
+
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '79.174.83.128']
 
 EMAIL_HOST = 'localhost'
@@ -96,7 +106,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': env('DB_NAME'),
         'HOST': env('DB_HOST'),
-        'PORT': env('DB_PORT'),
+        'PORT': env.int('DB_PORT'),
         'USER': env('DB_USER'),
         'PASSWORD':  env('DB_PASSWORD'),
     }
@@ -180,3 +190,6 @@ RESET_TOKEN = token_hex(8)
 RESET_PASSWORD = '123456'
 
 TOKEN_EXPIRY = 1800
+
+# DEBUG = True
+
