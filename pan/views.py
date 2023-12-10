@@ -23,7 +23,7 @@ from django.views.generic import View, TemplateView, RedirectView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 
-from .forms import UserBaseForm, InfoForm, AvatarForm, PasswordForm
+from .forms import UserBaseForm, InfoForm, AvatarForm, PasswordForm, LoginForm
 from .models import (GenericFile, UserFile, UserDir, FileShare, ShareRecord,
                         FileType, UserApproval, UserMessage, Notice)
 from .paginations import NoticeResultSetPagination
@@ -140,19 +140,17 @@ class LoginView(TemplateView):
                 login(request, user)
                 if not form.cleaned_data['remember']:
                     request.session.set_expiry(0)
-                return AjaxObj(msg='Успешный вход в систему', data=request.session['cloud']).get_response()
-
+                return AjaxObj(msg='sucess', data=request.session['cloud']).get_response()
             return AjaxObj(400, 'ошибка', {'errors': {'username': ['Неправильное имя пользователя или пароль']}}).get_response()
-
         return AjaxObj(400, 'ошибка', {'errors': form.errors}).get_response()
 
-        # user = authenticate(request, username='mike', password='mike')
-        # if user:
-        #     login(request, user)
-        #     return AjaxObj(msg='Успешный вход в систему', data=request.session['cloud']).get_response()
+
+
 
 
 class RegisterView(View):
+    redirect_authenticated_user = True
+    template_name = 'pan/register.html'
     """регистрация"""
     def post(self, request):
         form = UserBaseForm(request.POST)

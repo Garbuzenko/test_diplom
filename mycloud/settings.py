@@ -79,6 +79,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'mycloud.urls'
 
+# LOGIN_REDIRECT_URL = '/cloud'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -100,6 +102,15 @@ WSGI_APPLICATION = 'mycloud.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+
+
+# social auth configs for github
+SOCIAL_AUTH_GITHUB_KEY = str(os.getenv('GITHUB_KEY'))
+SOCIAL_AUTH_GITHUB_SECRET = str(os.getenv('GITHUB_SECRET'))
+
+# social auth configs for google
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = str(os.getenv('GOOGLE_KEY'))
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = str(os.getenv('GOOGLE_SECRET'))
 
 DATABASES = {
     'default': {
@@ -164,7 +175,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # LOGIN_URL = '/accounts/login/'
 LOGIN_URL = '/login' #– определяет URL-адрес, на который следует перенаправить неавторизованного пользователя при попытке посетить закрытую страницу сайта;
-LOGIN_REDIRECT_URL = '/' # – задает URL-адрес, на который следует перенаправлять пользователя после успешной авторизации;
+LOGIN_REDIRECT_URL = '/cloud' # – задает URL-адрес, на который следует перенаправлять пользователя после успешной авторизации;
 # Upload avatar limit
 MAX_AVATAR_SIZE = 3145728
 

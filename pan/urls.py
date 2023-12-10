@@ -6,6 +6,9 @@ from pan import views
 from django.contrib import admin
 from django.urls import path, include
 
+# from pan.forms import LoginForm
+# from pan.views import CustomLoginView
+
 app_name = 'pan'
 
 # Главная страница
@@ -43,7 +46,6 @@ urlpatterns += [
 # проверять подлинность
 urlpatterns += [
     path('login', views.LoginView.as_view(), name='login'),
-    # path('login', views.MyLoginView.as_view(), name='login'),
     path('register', views.RegisterView.as_view(), name='register'),
     path('logout', views.LoginOutView.as_view(), name='logout'),
     path('reset-password', views.ResetPasswordView.as_view(), name='reset-password'),
