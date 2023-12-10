@@ -13,13 +13,13 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 from pathlib import Path
 from secrets import token_hex
-
-import environ
+from environs import Env
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-env = environ.Env(DEBUG=(bool, True))
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+# env = Env(DEBUG=(bool, True))
+env = Env()
+Env.read_env(os.path.join(BASE_DIR, '.env'))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
@@ -29,7 +29,7 @@ SECRET_KEY = env('SECRET_KEY')#, 'django-insecure-wx8cyt+)#o!8f&7rrz!$5-s$*e_kci
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-INSTALLED_APPS = ['django.contrib.staticfiles']
+INSTALLED_APPS = ['django.contrib.staticfiles',  'users']
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
@@ -162,8 +162,9 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-LOGIN_URL = '/accounts/login/'
-
+# LOGIN_URL = '/accounts/login/'
+LOGIN_URL = '/login' #– определяет URL-адрес, на который следует перенаправить неавторизованного пользователя при попытке посетить закрытую страницу сайта;
+LOGIN_REDIRECT_URL = '/' # – задает URL-адрес, на который следует перенаправлять пользователя после успешной авторизации;
 # Upload avatar limit
 MAX_AVATAR_SIZE = 3145728
 

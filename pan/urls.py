@@ -3,11 +3,15 @@ from rest_framework.routers import DefaultRouter
 
 from pan import views
 
+from django.contrib import admin
+from django.urls import path, include
+
 app_name = 'pan'
 
 # Главная страница
 urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
+    path('admin', admin.site.urls),
     path('profile', views.ProfileView.as_view(), name='profile'),
     path('cloud', views.CloudView.as_view(), name='cloud'),
     path('history', views.HistoryView.as_view(), name='history'),
@@ -35,9 +39,11 @@ urlpatterns += [
     path('duplicated-check', views.DuplicatedCheck.as_view(), name='duplicated-check'),
 ]
 
+# path('cloud', views.CloudView.as_view(), name='cloud'),
 # проверять подлинность
 urlpatterns += [
     path('login', views.LoginView.as_view(), name='login'),
+    # path('login', views.MyLoginView.as_view(), name='login'),
     path('register', views.RegisterView.as_view(), name='register'),
     path('logout', views.LoginOutView.as_view(), name='logout'),
     path('reset-password', views.ResetPasswordView.as_view(), name='reset-password'),
@@ -60,4 +66,7 @@ router.register('bin', views.BinViewSet, 'api-bin')
 router.register('folder', views.FolderViewSet, 'api-folder')
 router.register('file', views.FileViewSet, 'api-file')
 router.register('notice', views.NoticeViewSet, 'api-notice')
+
+
+# router.register('login', views.CloudViewSet, 'api-cloud')
 

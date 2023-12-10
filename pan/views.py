@@ -4,14 +4,19 @@ from pathlib import Path
 from shutil import rmtree, move as file_move
 from uuid import UUID
 
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.views import LoginView
+from django.urls import reverse_lazy
+from django.contrib import messages
+
 from django.conf import settings
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, REDIRECT_FIELD_NAME
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.core.signing import Signer, TimestampSigner, BadSignature, SignatureExpired
 from django.core.mail import send_mail
-from django.http import FileResponse
-from django.shortcuts import render
+from django.http import FileResponse, HttpResponse
+from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.views.generic import View, TemplateView, RedirectView
@@ -24,7 +29,8 @@ from .models import (GenericFile, UserFile, UserDir, FileShare, ShareRecord,
 from .paginations import NoticeResultSetPagination
 from .serializers import FileSerializer, FileShareSerializer, FolderSerializer, NoticeSerializer
 from .utils import AjaxObj, get_key_signature, get_dir_size, make_archive_bytes, file_size_format
-
+from django.urls import reverse_lazy
+from django.contrib import messages
 
 class IndexView(TemplateView):
     """Первая страница"""
@@ -111,9 +117,21 @@ class ResetDoneView(TemplateView):
         return context
 
 
-class LoginView(View):
-    """войти"""
+# class LoginUser(DataMixin, LoginView):
+#     form_class = AuthenticationForm
+#     template_name = 'pan/login.html'
+#     def get_context
 
+# class LoginView2(LoginRequiredMixin, TemplateView):
+#     """корзина"""
+#     template_name = 'pan/login.html'
+
+
+class LoginView(TemplateView):
+    """войти"""
+    form_class = AuthenticationForm
+    template_name = 'pan/login.html'
+    redirect_authenticated_user = True
     def post(self, request):
         form = UserBaseForm(request.POST)
         if form.is_valid():
@@ -127,6 +145,12 @@ class LoginView(View):
             return AjaxObj(400, 'ошибка', {'errors': {'username': ['Неправильное имя пользователя или пароль']}}).get_response()
 
         return AjaxObj(400, 'ошибка', {'errors': form.errors}).get_response()
+
+        # user = authenticate(request, username='mike', password='mike')
+        # if user:
+        #     login(request, user)
+        #     return AjaxObj(msg='Успешный вход в систему', data=request.session['cloud']).get_response()
+
 
 class RegisterView(View):
     """регистрация"""
