@@ -46,6 +46,7 @@ $(document).ready(function () {
             $.post(_urls.login, formData, function (res) {
                 if (res.code === 200) {
                     $.each(res.data, function (key, value) {
+
                         localStorage.setItem(key, value)
                     })
 

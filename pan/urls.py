@@ -6,7 +6,7 @@ from pan import views
 from django.contrib import admin
 from django.urls import path, include
 
-# from pan.forms import LoginForm
+from pan.forms import LoginForm
 # from pan.views import CustomLoginView
 
 app_name = 'pan'
